@@ -1,6 +1,6 @@
-import 'dart:convert';
+import 'package:dartApiExample/utils/hash_utils.dart';
+import 'package:http/http.dart' as http;
 
-import 'package:crypto/crypto.dart';
 import 'package:dartApiExample/models/parameter_model.dart';
 import 'package:dartApiExample/models/response_model.dart';
 import 'package:dartApiExample/services/cache_service.dart';
@@ -14,26 +14,18 @@ import 'package:dartApiExample/utils/response_utils.dart';
  * If so, return those values to save API reads
  * 
  * Else, 
- * request articles from API's
+ * request articles from APIs
  * Add meta data
  * Add to cache
  */
 Future<List<ResponseModel>> fetchArticles({
   required CacheService cacheService,
   required ParameterModel parameters,
+  required http.Client httpClient,
 }) async {
-  // QQQQ maybe pretty up
-  Map<String, dynamic> hashObject = {
-    'maxArticles': parameters.maxArticles,
-    'author': parameters.author,
-    'keyWords': parameters.keyWords,
-  };
-
-  final bytes = utf8.encode(hashObject.toString());
-  int requestHash = sha1.convert(bytes).hashCode;
-
+  final requestHash = hashQuery(parameters);
   final cachedResponses = cacheService.checkCache(
-    requestHash: requestHash.toString(),
+    requestHash: requestHash,
   );
 
   if (cachedResponses != null) {
@@ -47,6 +39,7 @@ Future<List<ResponseModel>> fetchArticles({
         keyWords: parameters.keyWords,
         maxArticles: parameters.maxArticles,
         author: parameters.author,
+        httpClient: httpClient,
       );
 
       allResponses.addAll(gnewsArticles);
@@ -54,7 +47,7 @@ Future<List<ResponseModel>> fetchArticles({
       allResponses = saturateMetadata(allResponses);
 
       cacheService.addToCache(
-        requestHash: requestHash.toString(),
+        requestHash: requestHash,
         responses: allResponses,
       );
       return allResponses;

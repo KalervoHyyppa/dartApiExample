@@ -1,8 +1,43 @@
+import 'package:dartApiExample/services/cache_service.dart';
+import 'package:test/test.dart';
+
+import 'constants/response_constants.dart';
+
 void main() {
-  // QQQQ test reading cache for value there
-  // QQQQ test reading cache for vale not there
+  group('Cache Service Tests', () {
+    test('Test Reading Cache for existing value', () {
+      final CacheService cacheService = CacheService();
 
-  // QQQQ test adding
+      cacheService.addToCache(requestHash: 'test', responses: [fakeResponseModel]);
 
-  // QQQQ test trim
+      final modelsInCache = cacheService.checkCache(requestHash: 'test');
+
+      expect(modelsInCache?.contains(fakeResponseModel), isTrue);
+    });
+
+    test('Test Reading Cache for hash value not present', () {
+      final CacheService cacheService = CacheService();
+
+      cacheService.addToCache(requestHash: 'testOther', responses: [fakeResponseModel]);
+
+      final modelsInCache = cacheService.checkCache(requestHash: 'test');
+
+      expect(modelsInCache, isNull);
+    });
+
+    test('Test trimming aged cache', () async {
+      final CacheService cacheService = CacheService();
+
+      cacheService.addToCache(requestHash: 'test', responses: [fakeResponseModel]);
+      final modelsInCacheBeforeTrim = cacheService.checkCache(requestHash: 'test');
+      expect(modelsInCacheBeforeTrim?.contains(fakeResponseModel), isTrue);
+
+      // Wait for the default duration plus a little more time to ensure file is trimmed
+      // await Future.delayed(CacheService.defaultDuration);
+      await Future.delayed(Duration(seconds: 2));
+
+      final modelsInCacheAfterTrim = cacheService.checkCache(requestHash: 'test');
+      expect(modelsInCacheAfterTrim, isNull);
+    });
+  });
 }

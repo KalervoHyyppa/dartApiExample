@@ -4,9 +4,7 @@ import 'package:dartApiExample/models/response_model.dart';
 List<ResponseModel> saturateMetadata(List<ResponseModel> models) {
   List<ResponseModel> copyModels = [...models];
 
-  copyModels.map((model) => addWordFrequencyMapToResponseModel(model));
-
-  return copyModels;
+  return copyModels.map((model) => addWordFrequencyMapToResponseModel(model)).toList();
 }
 
 /// Adds the frequency of each word in the article to the model
@@ -16,6 +14,7 @@ ResponseModel addWordFrequencyMapToResponseModel(ResponseModel model) {
   List<String> wordsInArticle = model.content.split(' ');
 
   wordsInArticle.forEach((word) {
+    word = word.toLowerCase();
     if (wordFrequencyMap.containsKey(word)) {
       wordFrequencyMap[word] = wordFrequencyMap[word]! + 1;
     } else {

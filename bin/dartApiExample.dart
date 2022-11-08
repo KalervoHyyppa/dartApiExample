@@ -8,15 +8,28 @@ import 'package:dartApiExample/models/parameter_model.dart';
 import 'package:dartApiExample/models/response_model.dart';
 import 'package:dartApiExample/services/cache_service.dart';
 import 'package:dartApiExample/utils/query_utils.dart';
+import 'package:http/http.dart' as http;
 
 /**
+ * An API that will search for news articles based on the supplied parameters
+ * 
+ * Query Parameters
+ * 
+ * REQUIRED [keyWords]
+ * List of string that relates to news articles you are searching for
+ * 
+ * OPTIONAL [maxArticles] default is 10
+ * The max amount of articles to return
+ * 
+ * OPTIONAL [author]
+ * The author of articles you are searching for
  * 
  */
 
 void main() async {
   CacheService cacheService = CacheService();
-
   Stream<HttpRequest> server;
+  final httpClient = http.Client();
 
   try {
     server = await HttpServer.bind(InternetAddress.loopbackIPv4, 8080);
@@ -31,24 +44,23 @@ void main() async {
     final Uri uri = req.uri;
 
     try {
-      checkQueryMethod(
-        method: method,
-        response: response,
-      );
+      checkQueryMethod(method: method);
 
       final ParameterModel parameters = checkQueryParameters(uri.queryParametersAll);
 
       switch (uri.path) {
         case searchArticlesUrl:
+
+          // Fetch all articles
           final List<ResponseModel> articles = await fetchArticles(
             cacheService: cacheService,
             parameters: parameters,
+            httpClient: httpClient,
           );
 
+          // Convert to json and write response
           final List<Map<String, dynamic>> responses = articles.map((e) => e.toJson()).toList();
-
           response.statusCode = HttpStatus.ok;
-
           response.write(jsonEncode(responses));
 
           break;
@@ -70,8 +82,6 @@ void main() async {
           response.statusCode = HttpStatus.internalServerError;
           response.write('Error requesting articles');
       }
-      print('QQQQ main e $e');
-      print('QQQQ main e runtime ${e.runtimeType}');
     }
 
     response.close();

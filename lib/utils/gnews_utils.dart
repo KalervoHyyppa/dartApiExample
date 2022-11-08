@@ -1,7 +1,7 @@
 import 'package:dartApiExample/models/response_model.dart';
 
 /// Converts the incoming json from GNews to a [ResponseModel]
-ResponseModel convertGnewsJsonToResponseModal(Map<String, dynamic> json) {
+ResponseModel convertGnewsJsonToResponseModel(Map<String, dynamic> json) {
   return ResponseModel(
     title: json['title'],
     description: json['description'],
