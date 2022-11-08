@@ -1,0 +1,20 @@
+name: dartApiExample
+description: A sample command-line application.
+version: 1.0.0
+
+environment:
+  sdk: '>=2.18.0 <3.0.0'
+
+dependencies:
+  freezed_annotation: ^2.2.0
+  json_annotation: ^4.7.0
+  crypto: ^3.0.2
+  http: ^0.13.5
+  
+dev_dependencies:
+  build_runner: ^2.3.2
+  freezed: ^2.2.1
+  json_serializable: ^6.5.4
+  lints: ^2.0.0
+  test: ^1.16.0
+
