@@ -1,1 +1,0 @@
-enum SupportedSources { gNews, yahooNews }

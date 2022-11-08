@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:dartApiExample/constants/error_codes.dart';
 import 'package:dartApiExample/constants/url_constants.dart';
 import 'package:dartApiExample/fetch_article.dart';
 import 'package:dartApiExample/models/parameter_model.dart';
@@ -27,19 +28,18 @@ void main() async {
   await for (HttpRequest req in server) {
     final String method = req.method;
     final HttpResponse response = req.response;
-    final HttpHeaders headers = req.headers;
     final Uri uri = req.uri;
 
-    checkQueryMethod(
-      method: method,
-      response: response,
-    );
+    try {
+      checkQueryMethod(
+        method: method,
+        response: response,
+      );
 
-    final ParameterModel parameters = checkQueryParameters(uri.queryParameters);
+      final ParameterModel parameters = checkQueryParameters(uri.queryParametersAll);
 
-    switch (uri.path) {
-      case searchArticlesUrl:
-        try {
+      switch (uri.path) {
+        case searchArticlesUrl:
           final List<ResponseModel> articles = await fetchArticles(
             cacheService: cacheService,
             parameters: parameters,
@@ -50,15 +50,28 @@ void main() async {
           response.statusCode = HttpStatus.ok;
 
           response.write(jsonEncode(responses));
-        } catch (e) {
+
+          break;
+        default:
+          response.statusCode = HttpStatus.notFound;
+          response.write('Url Not Found');
+      }
+    } catch (e) {
+      switch (e) {
+        case missingQueryParameters:
+          response.statusCode = HttpStatus.badRequest;
+          response.write(missingQueryParameters);
+          break;
+        case unsupportedApiRequest:
+          response.statusCode = HttpStatus.methodNotAllowed;
+          response.write(unsupportedApiRequest);
+          break;
+        default:
           response.statusCode = HttpStatus.internalServerError;
           response.write('Error requesting articles');
-        }
-
-        break;
-      default:
-        response.statusCode = HttpStatus.notFound;
-        response.write('Url Not Found');
+      }
+      print('QQQQ main e $e');
+      print('QQQQ main e runtime ${e.runtimeType}');
     }
 
     response.close();

@@ -20,6 +20,7 @@ ParameterModel _$ParameterModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$ParameterModel {
+  List<String> get keyWords => throw _privateConstructorUsedError;
   int get maxArticles => throw _privateConstructorUsedError;
   String? get author => throw _privateConstructorUsedError;
 
@@ -35,7 +36,7 @@ abstract class $ParameterModelCopyWith<$Res> {
           ParameterModel value, $Res Function(ParameterModel) then) =
       _$ParameterModelCopyWithImpl<$Res, ParameterModel>;
   @useResult
-  $Res call({int maxArticles, String? author});
+  $Res call({List<String> keyWords, int maxArticles, String? author});
 }
 
 /// @nodoc
@@ -51,10 +52,15 @@ class _$ParameterModelCopyWithImpl<$Res, $Val extends ParameterModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? keyWords = null,
     Object? maxArticles = null,
     Object? author = freezed,
   }) {
     return _then(_value.copyWith(
+      keyWords: null == keyWords
+          ? _value.keyWords
+          : keyWords // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       maxArticles: null == maxArticles
           ? _value.maxArticles
           : maxArticles // ignore: cast_nullable_to_non_nullable
@@ -75,7 +81,7 @@ abstract class _$$_ParameterModelCopyWith<$Res>
       __$$_ParameterModelCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int maxArticles, String? author});
+  $Res call({List<String> keyWords, int maxArticles, String? author});
 }
 
 /// @nodoc
@@ -89,10 +95,15 @@ class __$$_ParameterModelCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? keyWords = null,
     Object? maxArticles = null,
     Object? author = freezed,
   }) {
     return _then(_$_ParameterModel(
+      keyWords: null == keyWords
+          ? _value._keyWords
+          : keyWords // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       maxArticles: null == maxArticles
           ? _value.maxArticles
           : maxArticles // ignore: cast_nullable_to_non_nullable
@@ -108,10 +119,21 @@ class __$$_ParameterModelCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_ParameterModel implements _ParameterModel {
-  const _$_ParameterModel({this.maxArticles = 10, this.author});
+  const _$_ParameterModel(
+      {required final List<String> keyWords,
+      this.maxArticles = 10,
+      this.author})
+      : _keyWords = keyWords;
 
   factory _$_ParameterModel.fromJson(Map<String, dynamic> json) =>
       _$$_ParameterModelFromJson(json);
+
+  final List<String> _keyWords;
+  @override
+  List<String> get keyWords {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_keyWords);
+  }
 
   @override
   @JsonKey()
@@ -121,7 +143,7 @@ class _$_ParameterModel implements _ParameterModel {
 
   @override
   String toString() {
-    return 'ParameterModel(maxArticles: $maxArticles, author: $author)';
+    return 'ParameterModel(keyWords: $keyWords, maxArticles: $maxArticles, author: $author)';
   }
 
   @override
@@ -129,6 +151,7 @@ class _$_ParameterModel implements _ParameterModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_ParameterModel &&
+            const DeepCollectionEquality().equals(other._keyWords, _keyWords) &&
             (identical(other.maxArticles, maxArticles) ||
                 other.maxArticles == maxArticles) &&
             (identical(other.author, author) || other.author == author));
@@ -136,7 +159,8 @@ class _$_ParameterModel implements _ParameterModel {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, maxArticles, author);
+  int get hashCode => Object.hash(runtimeType,
+      const DeepCollectionEquality().hash(_keyWords), maxArticles, author);
 
   @JsonKey(ignore: true)
   @override
@@ -153,12 +177,16 @@ class _$_ParameterModel implements _ParameterModel {
 }
 
 abstract class _ParameterModel implements ParameterModel {
-  const factory _ParameterModel({final int maxArticles, final String? author}) =
-      _$_ParameterModel;
+  const factory _ParameterModel(
+      {required final List<String> keyWords,
+      final int maxArticles,
+      final String? author}) = _$_ParameterModel;
 
   factory _ParameterModel.fromJson(Map<String, dynamic> json) =
       _$_ParameterModel.fromJson;
 
+  @override
+  List<String> get keyWords;
   @override
   int get maxArticles;
   @override

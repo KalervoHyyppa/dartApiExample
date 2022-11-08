@@ -13,13 +13,16 @@ class GNewsApi {
   /// [keyWords] are a list of words the article should be related to
   ///
   /// [maxArticles] is the maximum number of articles to get
+  ///
+  /// [author] is the author of an article, gNews does not natively support author as a search param, so adding to keyWords
   Future<List<ResponseModel>> getGnewsArticles({
     required List<String> keyWords,
     required int maxArticles,
-    required String author,
+    required String? author,
   }) async {
+    final searchKeyWords = author != null ? [...keyWords, author] : keyWords;
     final Map<String, String> queryParams = {
-      'q': parseKeyWords(keyWords),
+      'q': parseKeyWords(searchKeyWords),
       'max': maxArticles.toString(),
       'token': apiKey,
     };

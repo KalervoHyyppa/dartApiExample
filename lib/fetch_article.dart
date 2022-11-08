@@ -26,7 +26,7 @@ Future<List<ResponseModel>> fetchArticles({
   Map<String, dynamic> hashObject = {
     'maxArticles': parameters.maxArticles,
     'author': parameters.author,
-    'keyWords': keyWords,
+    'keyWords': parameters.keyWords,
   };
 
   final bytes = utf8.encode(hashObject.toString());
@@ -44,9 +44,9 @@ Future<List<ResponseModel>> fetchArticles({
 
       // If you wanted to add any other API's, you would add them here
       final gnewsArticles = await GNewsApi().getGnewsArticles(
-        keyWords: keyWords,
+        keyWords: parameters.keyWords,
         maxArticles: parameters.maxArticles,
-        author: 'QQQQ',
+        author: parameters.author,
       );
 
       allResponses.addAll(gnewsArticles);

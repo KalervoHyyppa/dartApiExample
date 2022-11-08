@@ -1,11 +1,21 @@
 import 'dart:io';
 
+import 'package:dartApiExample/constants/error_codes.dart';
 import 'package:dartApiExample/models/parameter_model.dart';
 
-ParameterModel checkQueryParameters(Map<String, String> queryParameters) {
+ParameterModel checkQueryParameters(Map<String, List<String>> queryParameters) {
+  if (!queryParameters.containsKey('keyWords')) {
+    throw (missingQueryParameters);
+  }
+
+  final String? author = queryParameters['author']?[0];
+  final String? maxArticlesString = queryParameters['maxArticles']?[0];
+  final List<String> keyWords = queryParameters['keyWords']!;
+
   final parameters = ParameterModel(
-    author: queryParameters['author'],
-    maxArticles: queryParameters['maxArticles'],
+    author: author,
+    maxArticles: maxArticlesString != null ? int.parse(maxArticlesString) : 10,
+    keyWords: keyWords,
   );
 
   return parameters;
@@ -19,7 +29,6 @@ checkQueryMethod({
     case 'GET':
       break;
     default:
-      response.statusCode = HttpStatus.forbidden;
-      response.write('Get requests only allowed for this API');
+      throw (unsupportedApiRequest);
   }
 }

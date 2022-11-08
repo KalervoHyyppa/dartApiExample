@@ -6,6 +6,7 @@ part 'parameter_model.g.dart';
 @freezed
 class ParameterModel with _$ParameterModel {
   const factory ParameterModel({
+    required List<String> keyWords,
     @Default(10) int maxArticles,
     String? author,
   }) = _ParameterModel;
