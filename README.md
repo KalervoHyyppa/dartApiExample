@@ -30,6 +30,7 @@ Only *GET* requests are allowed:
 Run `dart test`
 
 
+## Notes
 
-
+The program starts in `/bin/dartApiExample.dart` vs. `/lib/main.dart`
 

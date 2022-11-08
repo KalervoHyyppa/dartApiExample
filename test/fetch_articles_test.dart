@@ -28,7 +28,6 @@ void main() {
       final List<Map<String, Object>> articles = gNewsResponseJson['articles'];
 
       var response = articles.map((article) => convertGnewsJsonToResponseModel(article)).toList();
-      print('QQQQ results length ${results.length}');
 
       response = saturateMetadata(response);
 

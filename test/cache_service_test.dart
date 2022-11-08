@@ -26,7 +26,7 @@ void main() {
     });
 
     test('Test trimming aged cache', () async {
-      final CacheService cacheService = CacheService();
+      final CacheService cacheService = CacheService(Duration(seconds: 1));
 
       cacheService.addToCache(requestHash: 'test', responses: [fakeResponseModel]);
       final modelsInCacheBeforeTrim = cacheService.checkCache(requestHash: 'test');

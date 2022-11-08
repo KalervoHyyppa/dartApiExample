@@ -16,11 +16,15 @@ import 'package:dartApiExample/models/response_model.dart';
  * limit unnecessary API calls while allowing to get updated results if news changes
  */
 class CacheService {
-  static const defaultDuration = Duration(seconds: 1);
-  CacheService() : super() {
+  Duration defaultDuration;
+  CacheService([this.defaultDuration = const Duration(hours: 1)]) : super() {
     _init();
   }
   Map<String, CacheModel> _cache = {};
+
+  setDuration(Duration duration) {
+    defaultDuration = duration;
+  }
 
   /// Inits a periodic function that executes [_trimCache]
   _init() {
