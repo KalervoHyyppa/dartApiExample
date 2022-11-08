@@ -6,6 +6,9 @@ import 'package:dartApiExample/models/response_model.dart';
 /**
  * Cache Service for keeping cached values of previous requests
  * 
+ * The value of _cache is a hash map with the key being the hash of the request 
+ * and the value being a timestamp and corresponding articles
+ * 
  * When the class is initialized, it will run [_init], which trims cached values based on dates
  * 
  * The reason of trimming results every hour is:

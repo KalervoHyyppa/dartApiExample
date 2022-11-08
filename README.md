@@ -8,9 +8,9 @@ Runs on Port 8080
 
 **Parameters**
 
-1. *keyWords* REQUIRED
-2. *author*
-3. *maxArticles*
+1. *keyWords* | REQUIRED | List String
+2. *author* | String
+3. *maxArticles* | int
 
 `curl -X GET "http://localhost:8080/search?keyWords=iphone&keyWords=apple"`
 
@@ -27,26 +27,8 @@ Only *GET* requests are allowed:
 
 ## To test:
 
-Run `flutter test`
+Run `dart test`
 
----
-
-## Assumptions
-
-1. `keyWords` is a required argument
-2. Only 1 GET endpoint that will handle all arguments
-3. Caching results based on requests vs individual articles
-
-## What I would spend more time on:
-For the sake of time, there were some places I didn't fully build out; here are some explanations of what I would do.
-
-**Error Handling:**
-
-Handle and respond each error to the client versus blanket catches. 
-
-**Testing:**
-
-Write a more comprehensive test suit that captures all edge cases.
 
 
 

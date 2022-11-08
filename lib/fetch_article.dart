@@ -10,7 +10,7 @@ import 'package:dartApiExample/utils/response_utils.dart';
 /**
  * Fetches Articles
  * 
- * This will first see if the request hash is in cache
+ * This will first hash the query and then see if that hash is in cache
  * If so, return those values to save API reads
  * 
  * Else, 
